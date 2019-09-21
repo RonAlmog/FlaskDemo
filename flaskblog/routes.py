@@ -12,6 +12,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 def home():
     posts = Post.query.all()
+   # print ('posts', posts)
     return render_template('home.html', posts=posts)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -111,3 +112,11 @@ def new_post():
         return redirect(url_for('home'))
 
     return render_template('create_post.html', title='New Post', form=form)
+
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+
+
